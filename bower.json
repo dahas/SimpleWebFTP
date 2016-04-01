@@ -1,0 +1,13 @@
+{
+  "name": "webixFTP",
+  "description": "A simple FTP-Client with webix ui components",
+  "main": "server.js",
+  "authors": [
+    "Martin Wolf"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/dahas/SimpleWebFTP",
+  "dependencies": {
+    "webix": "^3.2.0"
+  }
+}
