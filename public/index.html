@@ -1,0 +1,459 @@
+<!doctype html>
+<html>
+<head>
+    <script type="text/javascript" src="./webix/codebase/webix.js"></script>
+    <link rel="stylesheet" type="text/css" href="./webix/codebase/webix.css">
+    <style>
+
+        .menuBG {
+            background: #888 !important;
+        }
+
+        .formBG {
+            background: #efefef !important;
+        }
+
+    </style>
+</head>
+<body>
+<input type="hidden" id="selectedRemoteDir" name="selectedRemoteDir" value="/"/>
+<input type="hidden" id="selectedLocalDir" name="selectedLocalDir" value=""/>
+<script>
+
+function addMessage(msg, color) {
+    color = color || 'inherit';
+    var values = $$("FTPResponseMessages").getValues();
+    var new_msg = '<div style="font-family: \'Courier New\' !important; color: ' + color + ';">[' + new Date().toTimeString() + '] ' + msg + "</div>" + values.msg;
+    $$("FTPResponseMessages").setValues({msg: new_msg})
+}
+
+function copyRemoteFiles(ids) {
+    if (ids instanceof Array)
+        var idArr = ids;
+    else
+        var idArr = new Array(ids);
+
+    $$("localFiles").showProgress({
+        type: "icon"
+    });
+
+    if (document.getElementById("selectedLocalDir").value) {
+        for (var i = 0; i < idArr.length; i++) {
+            var srcParts = idArr[i].split("/");
+            var destID = document.getElementById("selectedLocalDir").value + "\\" + srcParts.pop();
+            var msgID = 'd_' + i + '_' + new Date().getTime();
+            webix.ajax().sync().post("/DownloadFile", {
+                source: idArr[i],
+                destination: destID
+            }, function (text, data) {
+                data = data.json();
+                if (data.connected) {
+                    addMessage(data.ftp_msg, data.msg_col);
+                    //context.from.copy(ids[i], context.start, this, { parent: context.parent, newId: destID});
+                } else {
+                    addMessage("You are not connected!", 'red');
+                    return;
+                }
+            });
+        }
+        $$("remoteFiles").unselectAll();
+        $$("localFiles").hideProgress();
+        $$("localFiles").load("LocalFiles?parent=" + document.getElementById("selectedLocalDir").value);
+    } else {
+        addMessage("No local drive selected!", 'red');
+    }
+}
+
+function copyLocalFiles(ids) {
+    if (ids instanceof Array)
+        var idArr = ids;
+    else
+        var idArr = new Array(ids);
+
+    $$("remoteFiles").showProgress({
+        type: "icon"
+    });
+
+    for (var i = 0; i < idArr.length; i++) {
+        var srcParts = idArr[i].split("\\");
+        var destID = document.getElementById("selectedRemoteDir").value + "/" + srcParts.pop();
+        var msgID = 'u_' + i + '_' + new Date().getTime();
+        webix.ajax().sync().post("/UploadFile", {
+            source: idArr[i],
+            destination: destID
+        }, function (text, data) {
+            data = data.json();
+            if (data.connected) {
+                addMessage(data.ftp_msg, data.msg_col);
+                //context.from.copy(ids[i], context.start, this, { parent: context.parent, newId: destID});
+            } else {
+                addMessage(data.ftp_msg, data.msg_col);
+                return;
+            }
+        });
+    }
+    $$("localFiles").unselectAll();
+    $$("remoteFiles").hideProgress();
+    $$("remoteFiles").load("RemoteFiles?parent=" + document.getElementById("selectedRemoteDir").value);
+}
+
+function deleteRemoteFiles(ids) {
+    webix.modalbox({
+        title: "Please confirm",
+        text: "Really delete the selected file(s)?",
+        buttons: ["Yes", "No"],
+        width: 500,
+        callback: function (result) {
+            if (result == 0) {
+                var length = 1;
+                if (ids instanceof Array)
+                    length = ids.length;
+                for (var i = 0; i < length; i++) {
+                    var filename = length > 1 ? ids[i] : ids;
+                    webix.ajax().sync().post("/DeleteRemoteFile", {
+                        file: filename
+                    }, function (text, data) {
+                        data = data.json();
+                        if (data.connected) {
+                            addMessage(data.ftp_msg, data.msg_col);
+                            $$("remoteFiles").remove(filename);
+                        } else {
+                            addMessage("You are not connected!", 'red');
+                        }
+                    });
+                }
+            }
+        }
+    });
+}
+
+var connectForm = [
+    {
+        id: "ftp",
+        margin: 5,
+        borderless: true,
+        cols: [
+            { view: "text", id: "ftp_host", value: '', label: "Host" },
+            { view: "text", id: "ftp_port", value: '21', label: "Port", width: 160 },
+            { view: "text", id: "ftp_user", value: '', label: "Username", width: 260 },
+            { view: "text", id: "ftp_pass", value: '', label: "Password", width: 260 },
+            { view: "button", id: "connButton", hidden: false, value: 'Connect', width: 120,
+                on: {
+                    onItemClick: function (elm) {
+                        addMessage("Trying to connect ...")
+                        webix.ajax().sync().post("/Connect", {
+                            host: $$("ftp_host").getValue(),
+                            port: $$("ftp_port").getValue(),
+                            user: $$("ftp_user").getValue(),
+                            pass: $$("ftp_pass").getValue()
+                        }, function (text, data, XmlHttpRequest) {
+                            data = data.json();
+                            if (data.connected) {
+                                $$("remoteFolders").clearAll();
+                                $$("remoteFolders").load('/RemoteFolders');
+                                $$("remoteFiles").clearAll();
+                                $$("remoteFiles").load('/RemoteFiles');
+                                $$("connButton").hide();
+                                $$("discButton").show();
+                            }
+                            addMessage(data.ftp_msg, data.msg_col);
+                        });
+                    }
+                }
+            },
+            { view: "button", id: "discButton", hidden: true, value: 'Disconnect', width: 120,
+                on: {
+                    onItemClick: function (elm) {
+                        webix.modalbox({
+                            title: "Please confirm",
+                            text: "Really quit this FTP session?",
+                            buttons: ["Yes", "No"],
+                            width: 500,
+                            callback: function (result) {
+                                if (result == 0) {
+                                    addMessage("Trying to quit FTP session ...");
+                                    webix.ajax().sync().post("/Disconnect", null, function (text, data, XmlHttpRequest) {
+                                        data = data.json();
+                                        addMessage(data.ftp_msg, data.msg_col);
+                                        $$("connButton").show();
+                                        $$("discButton").hide();
+                                        $$("remoteFolders").clearAll();
+                                        $$("remoteFiles").clearAll();
+                                        document.getElementById("selectedRemoteDir").value = "/";
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        ]
+    }
+];
+
+var remoteLayout = {
+    cols: [
+        {
+            rows: [
+                {
+                    template: "Remote Drive",
+                    type: "header",
+                    height: 48
+                },
+                {
+                    view: "tree",
+                    id: "remoteFolders",
+                    select: true,
+                    width: 300,
+                    on: {
+                        onBeforeOpen: function (id) {
+                            var fc = String(this.getFirstChildId(id));
+                            this.remove(fc)
+                            this.loadBranch(id);
+                        },
+                        onItemClick: function (id) {
+                            document.getElementById("selectedRemoteDir").value = id;
+                            $$("remoteFiles").clearAll();
+                            $$("remoteFiles").load('/RemoteFiles?parent=' + id, 'json', function (text, data, http_request) {
+                                var data = data.json();
+                                addMessage(data.ftp_msg, data.msg_col);
+                            });
+                        }
+                    }
+                }
+            ]
+        },
+        {view: "resizer"},
+        {
+            rows: [
+                {
+                    view: "toolbar",
+                    id: "remoteTools",
+                    height: 48,
+                    css: "menuBG",
+                    cols: [
+                        { view: "button", type: "iconButton", align: "left", icon: "arrow-down", label: "Download", width: 120,
+                            on: {
+                                onItemClick: function () {
+                                    var ids = $$("remoteFiles").getSelectedId();
+                                    if (ids) {
+                                        copyRemoteFiles(ids);
+                                        return false;
+                                    }
+                                }
+                            }
+                        },
+                        { view: "button", type: "iconButton", align: "left", icon: "close", label: "Delete", width: 100,
+                            on: {
+                                onItemClick: function () {
+                                    var ids = $$("remoteFiles").getSelectedId();
+                                    if (ids) {
+                                        deleteRemoteFiles(ids);
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {   // FILES IN SELECTED REMOTE DIR
+                    view: "tree",
+                    id: "remoteFiles",
+                    select: true,
+                    multiselect: true,
+                    drag: true,
+                    onContext: {},
+                    on: {
+                        onBeforeDrop: function (context) {
+                            copyLocalFiles(context.source);
+                            return false;
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+};
+
+var localLayout = {
+    cols: [
+        {
+            rows: [
+                {
+                    template: "Local Drive",
+                    type: "header",
+                    height: 48
+                },
+                {
+                    view: "tree",
+                    id: "localFolders",
+                    select: true,
+                    width: 300,
+                    url: '/LocalDisks',
+                    on: {
+                        onBeforeOpen: function (id) {
+                            var fc = this.getFirstChildId(id);
+                            if (isNaN(fc) == false) {
+                                this.remove(fc);
+                                this.load('/LocalFolders?parent=' + id);
+                            }
+                        },
+                        onItemClick: function (id) {
+                            document.getElementById("selectedLocalDir").value = id;
+                            $$("localFiles").clearAll();
+                            $$("localFiles").load('/LocalFiles?parent=' + id, 'json', function (text, data, http_request) {
+                                var data = data.json();
+                                addMessage(data.ftp_msg, data.msg_col);
+                            });
+                        }
+                    }
+                }
+            ]
+        },
+        {view: "resizer"},
+        {
+            rows: [
+                {
+                    view: "toolbar",
+                    id: "localTools",
+                    height: 48,
+                    css: "menuBG",
+                    cols: [
+                        { view: "button", type: "iconButton", align: "left", icon: "arrow-up", label: "Upload", width: 100,
+                            on: {
+                                onItemClick: function () {
+                                    var ids = $$("localFiles").getSelectedId();
+                                    copyLocalFiles(ids);
+                                }
+                            }
+                        }
+                    ]
+                },
+                {   // FILES IN SELECTED LOCAL DIR
+                    view: "tree",
+                    id: "localFiles",
+                    select: true,
+                    multiselect: true,
+                    url: '/LocalFiles?parent=' + document.getElementById("selectedLocalDir").value,
+                    drag: true,
+                    onContext: {},
+                    on: {
+                        onBeforeDrop: function (context) {
+                            copyRemoteFiles(context.source);
+                            return false;
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+};
+
+var FTPResponseMessages = {
+    id: "FTPResponseMessages",
+    scroll: true,
+    //css: "formBG",
+    data: {
+        msg: ""
+    },
+    template: function (obj) {
+        return '<div class="ftp_msg">' + obj.msg + '</div>';
+    },
+    height: 200
+};
+
+webix.ready(function () {
+    webix.ui({
+        container: document.body,
+        type: "space",
+        rows: [
+            {
+                template: "<b>Simple Web-FTP</b> using Webix UI components and a NodeJS server.",
+                type: "header",
+                height: 48
+            },
+            {
+                view: "form",
+                css: "formBG",
+                scroll: false,
+                elements: connectForm
+            },
+            {
+                cols: [
+                    localLayout,
+                    {width: 10},
+                    remoteLayout
+                ]
+            },
+            {view: "resizer"},
+            {
+                borderless: true,
+                view: "tabview",
+                cells: [
+                    {
+                        header: "Log",
+                        width: 300,
+                        body: FTPResponseMessages
+                    },
+                    {
+                        header: "Transfer",
+                        width: 300,
+                        body: {height: 200}
+                    }
+                ]
+            }
+        ]
+    });
+
+    webix.ajax().sync().post("/Connect", null, function (text, data) {
+        data = data.json();
+        if (data.connected) {
+            $$("remoteFolders").clearAll();
+            $$("remoteFolders").load('/RemoteFolders');
+            $$("remoteFiles").clearAll();
+            $$("remoteFiles").load('/RemoteFiles');
+            $$("connButton").hide();
+            $$("discButton").show();
+        }
+        addMessage(data.ftp_msg, data.msg_col);
+    });
+
+    $$("localFolders").select(document.getElementById("selectedLocalDir").value);
+    $$("remoteFolders").select(document.getElementById("selectedRemoteDir").value);
+
+    webix.extend($$("localFiles"), webix.ProgressBar);
+    webix.extend($$("remoteFiles"), webix.ProgressBar);
+
+    webix.ui({
+        view: "contextmenu",
+        data: ["Download", "Delete"],
+        on: {
+            onItemClick: function (id) {
+                var context = this.getContext();
+                var tree = context.obj; //list item object
+                var treeID = context.id; //id of the clicked list item
+                if (id == "Download")
+                    copyRemoteFiles(treeID);
+                if (id == "Delete")
+                    deleteRemoteFiles(treeID);
+            }
+        }
+    }).attachTo($$("remoteFiles"));
+
+    webix.ui({
+        view: "contextmenu",
+        data: ["Upload"],
+        on: {
+            onItemClick: function (id) {
+                var context = this.getContext();
+                var tree = context.obj;
+                var treeID = context.id;
+                if (id == "Upload")
+                    copyLocalFiles(treeID);
+            }
+        }
+    }).attachTo($$("localFiles"));
+});
+
+</script>
+</body>
+</html>
