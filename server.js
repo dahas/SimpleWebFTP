@@ -230,9 +230,15 @@ app.get('/LocalDisks', function (req, res) {
 app.get('/LocalFolders', function (req, res) {
     var currPath = req.query.parent ? req.query.parent : '';
     fs.readdir(currPath, function (err, list) {
-        if (err) throw err;
-        var data = loadLocalFolders(list, currPath);
-        res.send(data);
+        if (!err) {
+            var data = loadLocalFolders(list, currPath);
+            res.send(data);
+        } else {
+            res.send({
+                ftp_msg: "Permission denied!",
+                msg_col: "red"
+            });
+        }
     });
 });
 
@@ -240,11 +246,12 @@ function loadLocalFolders(list, currPath) {
     var data = [];
     list.forEach(function (item) {
         try {
-            var is_dir = fs.statSync(currPath + item + '\\').isDirectory();
+            var curr = fs.statSync(currPath + item + '\\');
+            if (typeof curr != 'undefined' && curr.isDirectory()) {
+                data.push({id: currPath + item + '\\', value: item, data: {}})
+            }
         } catch (e) {
-        }
-        if (typeof is_dir != 'undefined' && is_dir) {
-            data.push({id: currPath + item + '\\', value: item, data: {}})
+            //console.log(e);
         }
     });
     return {
@@ -258,12 +265,18 @@ app.get('/LocalFiles', function (req, res) {
     var currPath = req.query.parent ? req.query.parent : '';
     if (currPath) {
         fs.readdir(currPath, function (err, list) {
-            if (err)
-                console.log(err);
-            if (list) {
-                data = loadLocalFiles(list, currPath, 'folders');
+            if (!err) {
+                if (list) {
+                    data = loadLocalFiles(list, currPath, 'folders');
+                    res.send(data);
+                }
+            } else {
+                res.send({
+                    data: data,
+                    ftp_msg: "Permission denied!",
+                    msg_col: "red"
+                });
             }
-            res.send(data);
         });
     } else {
         res.send(data);
