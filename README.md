@@ -14,7 +14,7 @@ This is a simple web FTP client using Webix UI components and a NodeJS server.
 
 Download zip file, create a folder and extract content into it. Enter in terminal:
 
-- $ cd /Your_newly_creaated_folder
+- $ cd /Your_newly_created_folder
 - $ npm install
 - $ bower install
 
