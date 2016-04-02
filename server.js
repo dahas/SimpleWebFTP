@@ -32,7 +32,7 @@ var store = new mongoDBStore({
 });
 
 app.use(session({
-    secret: 'd98h209KmvXp74r3xd86tHgsq13',
+    secret: 'DontTellAnyone',
     cookie: {
         //maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
     },
@@ -55,8 +55,6 @@ app.post('/Connect', function (req, res) {
             if (result)
                 res.send({connected: true, ftp_msg: "You are successfully connected.", msg_col: "green"});
             else {
-                req.session.destroy();
-                res.cookie("connect.sid", "", { expires: new Date() });
                 res.send({connected: false, ftp_msg: "Authorization failed.", msg_col: "red"});
             }
         });
@@ -179,7 +177,11 @@ app.post('/UploadFile', function (req, res) {
             }
         });
     } else {
-        res.send();
+        res.send({
+            connected: false,
+            ftp_msg: "You are not connected!",
+            msg_col: "red"
+        });
     }
 });
 
@@ -299,7 +301,11 @@ app.post('/DownloadFile', function (req, res) {
             }
         });
     } else {
-        res.send();
+        res.send({
+            connected: false,
+            ftp_msg: "You are not connected!",
+            msg_col: "red"
+        });
     }
 });
 

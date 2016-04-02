@@ -136,17 +136,17 @@ var connectForm = [
             { view: "text", id: "ftp_host", value: '', label: "Host" },
             { view: "text", id: "ftp_port", value: '21', label: "Port", width: 160 },
             { view: "text", id: "ftp_user", value: '', label: "Username", width: 260 },
-            { view: "text", id: "ftp_pass", value: '', label: "Password", width: 260 },
+            { view: "text", type: "password", id: "ftp_pass", value: '', label: "Password", width: 260 },
             { view: "button", id: "connButton", hidden: false, value: 'Connect', width: 120,
                 on: {
                     onItemClick: function (elm) {
-                        addMessage("Trying to connect ...")
-                        webix.ajax().sync().post("/Connect", {
+                        addMessage("Trying to connect ...");
+                        webix.ajax().timeout(6000).post("/Connect", {
                             host: $$("ftp_host").getValue(),
                             port: $$("ftp_port").getValue(),
                             user: $$("ftp_user").getValue(),
                             pass: $$("ftp_pass").getValue()
-                        }, function (text, data, XmlHttpRequest) {
+                        }, function (text, data, xhr) {
                             data = data.json();
                             if (data.connected) {
                                 $$("remoteFolders").clearAll();
@@ -155,7 +155,16 @@ var connectForm = [
                                 $$("remoteFiles").load('/RemoteFiles');
                                 $$("connButton").hide();
                                 $$("discButton").show();
+                                webix.storage.cookie.put('ftp', {
+                                    ftp_host: $$("ftp_host").getValue(),
+                                    ftp_port: $$("ftp_port").getValue(),
+                                    ftp_user: $$("ftp_user").getValue(),
+                                    ftp_pass: $$("ftp_pass").getValue()
+                                });
                             }
+                            xhr.ontimeout = function () {
+                                addMessage("Sorry! The server doesn´t respond. Please try again later.", "red");
+                            };
                             addMessage(data.ftp_msg, data.msg_col);
                         });
                     }
@@ -166,20 +175,24 @@ var connectForm = [
                     onItemClick: function (elm) {
                         webix.modalbox({
                             title: "Please confirm",
-                            text: "Really quit this FTP session?",
+                            text: "Really quit the FTP session?",
                             buttons: ["Yes", "No"],
                             width: 500,
                             callback: function (result) {
                                 if (result == 0) {
                                     addMessage("Trying to quit FTP session ...");
-                                    webix.ajax().sync().post("/Disconnect", null, function (text, data, XmlHttpRequest) {
+                                    webix.ajax().timeout(6000).post("/Disconnect", null, function (text, data, xhr) {
                                         data = data.json();
-                                        addMessage(data.ftp_msg, data.msg_col);
                                         $$("connButton").show();
                                         $$("discButton").hide();
                                         $$("remoteFolders").clearAll();
                                         $$("remoteFiles").clearAll();
                                         document.getElementById("selectedRemoteDir").value = "/";
+                                        xhr.ontimeout = function () {
+                                            addMessage("Sorry! The server doesn´t respond. Please try again later.", "red");
+                                        };
+                                        $$("FTPResponseMessages").setValues({msg:""});
+                                        addMessage(data.ftp_msg, data.msg_col);
                                     });
                                 }
                             }
@@ -214,7 +227,7 @@ var remoteLayout = {
                         onItemClick: function (id) {
                             document.getElementById("selectedRemoteDir").value = id;
                             $$("remoteFiles").clearAll();
-                            $$("remoteFiles").load('/RemoteFiles?parent=' + id, 'json', function (text, data, http_request) {
+                            $$("remoteFiles").load('/RemoteFiles?parent=' + id, 'json', function (text, data) {
                                 var data = data.json();
                                 addMessage(data.ftp_msg, data.msg_col);
                             });
@@ -405,6 +418,11 @@ webix.ready(function () {
     });
 
     webix.ajax().sync().post("/Connect", null, function (text, data) {
+        var ftpCookie = webix.storage.cookie.get('ftp') || {};
+        $$("ftp_host").setValue(ftpCookie.ftp_host || '');
+        $$("ftp_port").setValue(ftpCookie.ftp_port || 21);
+        $$("ftp_user").setValue(ftpCookie.ftp_user || '');
+        $$("ftp_pass").setValue(ftpCookie.ftp_pass || '');
         data = data.json();
         if (data.connected) {
             $$("remoteFolders").clearAll();
