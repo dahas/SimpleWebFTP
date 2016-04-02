@@ -3,6 +3,8 @@ SimpleWebFTP
 
 This is a simple web FTP client using Webix UI components and a NodeJS server.
 
+<img src="http://www.martinwolf.info/images/ftpclient.png" alt="Screenshot of the FTP client in Firefox on WIndows 10" />
+
 ### Requirements
 
 - NodeJS
@@ -10,10 +12,11 @@ This is a simple web FTP client using Webix UI components and a NodeJS server.
 
 ### Installation
 
-Enter in terminal:
+Download zip file, create a folder and extract content into it. Enter in terminal:
 
-- npm install
-- bower install
+- $ cd /Your_newly_created_folder
+- $ npm install
+- $ bower install
 
 ### Launch
 
