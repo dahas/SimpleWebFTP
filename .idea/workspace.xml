@@ -210,7 +210,11 @@
       <created>1459611908302</created>
       <updated>1459611908302</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary=".">
+      <created>1459611938104</created>
+      <updated>1459611938104</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -253,9 +257,9 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="." />
     <MESSAGE value="Added cookie storage for login data" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added cookie storage for login data" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
