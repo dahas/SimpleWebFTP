@@ -277,6 +277,10 @@ var remoteLayout = {
                     onContext: {},
                     on: {
                         onBeforeDrop: function (context) {
+                            $$("remoteFiles").drag = "source";
+                            $$("remoteFiles").refresh();
+                            $$("localFiles").drag = "target";
+                            $$("localFiles").refresh();
                             copyLocalFiles(context.source);
                             return false;
                         }
@@ -351,6 +355,10 @@ var localLayout = {
                     onContext: {},
                     on: {
                         onBeforeDrop: function (context) {
+                            $$("localFiles").drag = "source";
+                            $$("localFiles").refresh();
+                            $$("remoteFiles").drag = "target";
+                            $$("remoteFiles").refresh();
                             copyRemoteFiles(context.source);
                             return false;
                         }
@@ -380,7 +388,7 @@ webix.ready(function () {
         type: "space",
         rows: [
             {
-                template: "<b>Simple Web-FTP</b> using Webix UI components and a NodeJS server.",
+                template: "A <b>Simple Web-FTP</b> client using Webix UI components and a NodeJS server.",
                 type: "header",
                 height: 48
             },
