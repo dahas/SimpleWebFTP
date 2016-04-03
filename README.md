@@ -22,6 +22,10 @@ Download zip file, create a folder and extract content into it. Enter in termina
 
 Enter localhost:9001 in your webbrowser.
 
+### Known problems
+
+The app is probapply working well only on Windows since I haven't tested it on other machines. Sorry for that.
+
 ### License
 
 MIT
