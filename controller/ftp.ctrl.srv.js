@@ -10,14 +10,14 @@ var ftp = null;
  * @param res
  */
 exports.connect = function (req, res) {
-    var sessData = req.session;
-    sessData.ftp_host = sessData.ftp_host || req.body.host;
-    sessData.ftp_port = sessData.ftp_port || req.body.port;
-    sessData.ftp_user = sessData.ftp_user || req.body.user;
-    sessData.ftp_pass = sessData.ftp_pass || req.body.pass;
-    if (sessData.ftp_host) {
-        ftp = new JSFtp({host: sessData.ftp_host, port: sessData.ftp_port, user: sessData.ftp_user, pass: sessData.ftp_pass, debugMode: true});
-        ftp.auth(sessData.ftp_user, sessData.ftp_pass, function (err, result) {
+    var ftpData = JSON.parse(req.cookies.ftp);
+    ftpData.ftp_host = ftpData.ftp_host || req.body.host;
+    ftpData.ftp_port = ftpData.ftp_port || req.body.port;
+    ftpData.ftp_user = ftpData.ftp_user || req.body.user;
+    ftpData.ftp_pass = ftpData.ftp_pass || req.body.pass;
+    if (ftpData.ftp_host && ftpData.ftp_port && ftpData.ftp_user && ftpData.ftp_pass) {
+        ftp = new JSFtp({host: ftpData.ftp_host, port: ftpData.ftp_port, user: ftpData.ftp_user, pass: ftpData.ftp_pass, debugMode: true});
+        ftp.auth(ftpData.ftp_user, ftpData.ftp_pass, function (err, result) {
             if (result)
                 res.send({connected: true, ftp_msg: "You are successfully connected.", msg_col: "green"});
             else {
@@ -25,7 +25,7 @@ exports.connect = function (req, res) {
             }
         });
     } else {
-        res.send({connected: false, ftp_msg: "Please connect to your FTP-Server.", msg_col: ""});
+        res.send({connected: false, ftp_msg: "Please enter the correct data of your FTP account and press 'connect'.", msg_col: ""});
     }
 };
 
@@ -35,24 +35,32 @@ exports.connect = function (req, res) {
  * @param res
  */
 exports.disconnect = function (req, res) {
-    ftp.raw.quit(function (hadError, data) {
-        if (!hadError) {
-            req.session.destroy();
-            res.cookie("connect.sid", "", { expires: new Date() });
-            res.send({
-                connected: false,
-                ftp_msg: "Please connect to your FTP-Server.",
-                msg_col: ""
-            });
-        } else {
-            res.send({
-                connected: true,
-                ftp_msg: hadError,
-                msg_col: "red"
-            });
-        }
-    });
-    ftp = null;
+    if (ftp) {
+        ftp.raw.quit(function (hadError, data) {
+            if (!hadError) {
+                req.session.destroy();
+                res.cookie("connect.sid", "", { expires: new Date() });
+                res.send({
+                    connected: false,
+                    ftp_msg: "You have been disconnected.",
+                    msg_col: ""
+                });
+            } else {
+                res.send({
+                    connected: true,
+                    ftp_msg: hadError,
+                    msg_col: "red"
+                });
+            }
+        });
+        ftp = null;
+    } else {
+        res.send({
+            connected: false,
+            ftp_msg: "You have been disconnected.",
+            msg_col: ""
+        });
+    }
 };
 
 /**

@@ -1,7 +1,6 @@
 var express = require('express');
-var session = require('express-session');
-var mongoDBStore = require('connect-mongodb-session')(session);
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var path = require('path');
 
 module.exports = function() {
@@ -14,18 +13,7 @@ module.exports = function() {
         require('longjohn');
     }
 
-    var store = new mongoDBStore({
-        uri: 'mongodb://localhost:27017/connect_mongodb_session',
-        collection: 'mySessions'
-    });
-
-    app.use(session({
-        secret: 'DontTellAnyone',
-        cookie: {
-            //maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
-        },
-        store: store
-    }));
+    app.use(cookieParser());
 
     var ftp = require("../controller/ftp.ctrl.srv");
 

@@ -155,12 +155,14 @@ var connectForm = [
                                 $$("remoteFiles").load('/RemoteFiles');
                                 $$("connButton").hide();
                                 $$("discButton").show();
+                                var d = new Date();
+                                var exp_date = new Date(d.getTime() + 1000 * 60 * 60 * 24 * 365);
                                 webix.storage.cookie.put('ftp', {
                                     ftp_host: $$("ftp_host").getValue(),
                                     ftp_port: $$("ftp_port").getValue(),
                                     ftp_user: $$("ftp_user").getValue(),
                                     ftp_pass: $$("ftp_pass").getValue()
-                                });
+                                }, null, exp_date);
                             }
                             xhr.ontimeout = function () {
                                 addMessage("Sorry! The server doesn´t respond. Please try again later.", "red");
@@ -191,7 +193,7 @@ var connectForm = [
                                         xhr.ontimeout = function () {
                                             addMessage("Sorry! The server doesn´t respond. Please try again later.", "red");
                                         };
-                                        $$("FTPResponseMessages").setValues({msg:""});
+                                        $$("FTPResponseMessages").setValues({msg: ""});
                                         addMessage(data.ftp_msg, data.msg_col);
                                     });
                                 }

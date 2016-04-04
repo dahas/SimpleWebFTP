@@ -5,18 +5,14 @@ This is a simple web FTP client using Webix UI components and a NodeJS server.
 
 <img src="http://www.martinwolf.info/images/ftpclient.png" alt="Screenshot of the FTP client in Firefox on WIndows 10" />
 
-### Requirements
-
-- NodeJS
-- MongoDB
-
 ### Installation
 
-Download zip file, create a folder and extract content into it. Enter in terminal:
+Download zip-file, create a folder and extract the content of the zip-file into it. Then enter in terminal:
 
-- $ cd /Your_newly_created_folder
+- $ cd Path/to/your_newly_created_folder
 - $ npm install
 - $ bower install
+- $ node server
 
 ### Launch
 
@@ -24,7 +20,7 @@ Enter localhost:9001 in your webbrowser.
 
 ### Known problems
 
-The app is probapply working well only on Windows since I haven't tested it on other machines. Sorry for that.
+The app is probapply only working well on Windows since I haven't tested it on any other machine. Sorry for that.
 
 ### License
 

@@ -6,10 +6,9 @@
   "dependencies": {
     "body-parser": "^1.15.0",
     "compression": "^1.0.11",
-    "connect-mongodb-session": "^1.1.1",
+    "cookie-parser": "^1.4.1",
     "drivelist": "^2.0.10",
     "express": "^4.13.4",
-    "express-session": "^1.13.0",
     "jsftp": "^1.5.3",
     "longjohn": "^0.2.11",
     "method-override": "^2.3.5",
