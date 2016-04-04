@@ -7,14 +7,16 @@ This is a simple web FTP client using Webix UI components and a NodeJS server.
 
 ### Installation
 
-Download zip-file, create a folder and extract the content of the zip-file into it. Then enter in terminal:
-
+Download zip-file, create a folder and extract the content of the zip-file into it.
+Then enter in terminal:
 - $ cd Path/to/your_newly_created_folder
 - $ npm install
 - $ bower install
-- $ node server
 
 ### Launch
+
+Enter in terminal:
+- $ node server
 
 Enter localhost:9001 in your webbrowser.
 
