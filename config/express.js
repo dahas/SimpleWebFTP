@@ -3,19 +3,24 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var path = require('path');
 
+if (process.env.NODE_ENV !== 'production') {
+    require('longjohn');
+}
+
 module.exports = function() {
 
     var app = express();
+
+    app.set("views", "./view");
+    app.set("view engine", "ejs");
+
     app.use(express.static(path.join(__dirname, '../view')));
     app.use(bodyParser());
-
-    if (process.env.NODE_ENV !== 'production') {
-        require('longjohn');
-    }
-
     app.use(cookieParser());
 
     var ftp = require("../controller/ftp.ctrl.srv");
+
+    app.get('/', ftp.launch);
 
     app.route('/Connect').post(ftp.connect);
     app.route('/Disconnect').post(ftp.disconnect);

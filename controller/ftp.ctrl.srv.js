@@ -1,8 +1,41 @@
-/********** REMOTE DRIVE **********/
-
-var fs = require('fs');
 var JSFtp = require("jsftp");
+var drivelist = require('drivelist');
+var fs = require('fs');
+
 var ftp = null;
+var title = "A <b>Simple Web-FTP</b> client using Webix UI components and a NodeJS server.";
+
+
+/**
+ * Render the GUI
+ * @param req
+ * @param res
+ */
+exports.launch = function (req, res) {
+    var is_connected = false;
+    if (req.cookies.ftp && req.cookies.con) {
+        var ftpData = JSON.parse(req.cookies.ftp);
+        ftp = new JSFtp({host: ftpData.ftp_host, port: ftpData.ftp_port, user: ftpData.ftp_user, pass: ftpData.ftp_pass, debugMode: true});
+        ftp.auth(ftpData.ftp_user, ftpData.ftp_pass, function (err, result) {
+            if (result) {
+                is_connected = true;
+            }
+            res.render("index", {
+                title: title,
+                connected: is_connected,
+                welcome: "Your are successfully connected.",
+                welcome_col: "green"
+            });
+        });
+    } else {
+        res.render("index", {
+            title: title,
+            connected: is_connected,
+            welcome: "Please connect to your FTP server.",
+            welcome_col: "red"
+        });
+    }
+}
 
 /**
  * Connect to FTP server
@@ -10,7 +43,7 @@ var ftp = null;
  * @param res
  */
 exports.connect = function (req, res) {
-    var ftpData = JSON.parse(req.cookies.ftp);
+    var ftpData = req.cookies.ftp ? JSON.parse(req.cookies.ftp) : {};
     ftpData.ftp_host = ftpData.ftp_host || req.body.host;
     ftpData.ftp_port = ftpData.ftp_port || req.body.port;
     ftpData.ftp_user = ftpData.ftp_user || req.body.user;
@@ -20,6 +53,9 @@ exports.connect = function (req, res) {
         ftp.auth(ftpData.ftp_user, ftpData.ftp_pass, function (err, result) {
             if (result)
                 res.send({connected: true, ftp_msg: "You are successfully connected.", msg_col: "green"});
+            else if (err) {
+                res.send({connected: false, ftp_msg: "You are already authorized.", msg_col: "red"});
+            }
             else {
                 res.send({connected: false, ftp_msg: "Authorization failed.", msg_col: "red"});
             }
@@ -38,11 +74,9 @@ exports.disconnect = function (req, res) {
     if (ftp) {
         ftp.raw.quit(function (hadError, data) {
             if (!hadError) {
-                req.session.destroy();
-                res.cookie("connect.sid", "", { expires: new Date() });
                 res.send({
                     connected: false,
-                    ftp_msg: "You have been disconnected.",
+                    ftp_msg: data.text,
                     msg_col: ""
                 });
             } else {
@@ -62,6 +96,8 @@ exports.disconnect = function (req, res) {
         });
     }
 };
+
+/********** REMOTE DRIVE **********/
 
 /**
  * List folders on remote drive
@@ -204,8 +240,6 @@ exports.deleteRemoteFile = function (req, res) {
 };
 
 /********** LOCAL DRIVES **********/
-
-var drivelist = require('drivelist');
 
 /**
  * List mounted local disks
