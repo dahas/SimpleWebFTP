@@ -29,6 +29,8 @@ module.exports = function() {
     app.route('/RemoteFiles').get(ftp.listRemoteFiles);
     app.route('/UploadFile').post(ftp.uploadFile);
     app.route('/DeleteRemoteFile').post(ftp.deleteRemoteFile);
+    app.route('/DeleteRemoteFolder').post(ftp.deleteRemoteFolder);
+    app.route('/CreateRemoteDir').post(ftp.createRemoteDir);
 
     app.route('/LocalDisks').get(ftp.listLocalDisks);
     app.route('/LocalFolders').get(ftp.listLocalFolders);

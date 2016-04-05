@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3d586eef-458e-4886-bef0-edacc54645f2" name="Default" comment=".">
-      <change type="MOVED" beforePath="C:\NodeRoot\FTPClient\view\index.html" afterPath="$PROJECT_DIR$/view/index.ejs" />
+    <list default="true" id="3d586eef-458e-4886-bef0-edacc54645f2" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/express.js" afterPath="$PROJECT_DIR$/config/express.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/ftp.ctrl.srv.js" afterPath="$PROJECT_DIR$/controller/ftp.ctrl.srv.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/index.ejs" afterPath="$PROJECT_DIR$/view/index.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="FTPClient.iws" />
@@ -32,9 +31,9 @@
       <file leaf-file-name="index.ejs" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/index.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="435" column="51" selection-start="16869" selection-end="16869" vertical-scroll-proportion="0.37519142" vertical-offset="7150" max-vertical-offset="8500">
+            <state line="174" column="77" selection-start="6337" selection-end="6337" vertical-scroll-proportion="0.65543646" vertical-offset="2530" max-vertical-offset="9911">
               <folding>
-                <marker date="1459788319729" expanded="false" signature="691:739" placeholder="..." />
+                <marker date="1459851918160" expanded="false" signature="691:739" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -52,11 +51,8 @@
       <file leaf-file-name="package.json" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="0" selection-start="479" selection-end="479" vertical-scroll-proportion="-13.076923" vertical-offset="0" max-vertical-offset="442">
-              <folding>
-                <marker date="1459774280619" expanded="true" signature="0:478" placeholder="{&quot;name&quot;: &quot;webixFTP&quot;...}" />
-                <marker date="1459774280619" expanded="true" signature="152:429" placeholder="{&quot;body-parser&quot;: &quot;^1.15.0&quot;...}" />
-              </folding>
+            <state line="12" column="22" selection-start="342" selection-end="342" vertical-scroll-proportion="-7.8461537" vertical-offset="0" max-vertical-offset="442">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -64,7 +60,7 @@
       <file leaf-file-name="express.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/express.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="0" selection-start="519" selection-end="519" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
+            <state line="20" column="52" selection-start="518" selection-end="518" vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="799">
               <folding />
             </state>
           </provider>
@@ -73,7 +69,7 @@
       <file leaf-file-name="ftp.ctrl.srv.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controller/ftp.ctrl.srv.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="29" selection-start="1144" selection-end="1144" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6426">
+            <state line="23" column="40" selection-start="837" selection-end="837" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7667">
               <folding />
             </state>
           </provider>
@@ -99,13 +95,16 @@
         <option value="$PROJECT_DIR$/bower.json" />
         <option value="$PROJECT_DIR$/public/index.html" />
         <option value="$PROJECT_DIR$/server.js" />
-        <option value="$PROJECT_DIR$/controller/connect.ctrl.srv.js" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/view/index.html" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/config/express.js" />
-        <option value="$PROJECT_DIR$/controller/ftp.ctrl.srv.js" />
         <option value="$PROJECT_DIR$/view/index.ejs" />
+        <option value="$PROJECT_DIR$/controller/local.ctrl.srv.js" />
+        <option value="$PROJECT_DIR$/controller/connect.ctrl.srv.js" />
+        <option value="$PROJECT_DIR$/controller/render.ctrl.srv.js" />
+        <option value="$PROJECT_DIR$/config/express.js" />
+        <option value="$PROJECT_DIR$/controller/remote.ctrl.srv.js" />
+        <option value="$PROJECT_DIR$/controller/ftp.ctrl.srv.js" />
       </list>
     </option>
   </component>
@@ -218,6 +217,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\NodeRoot\FTPClient\controller" />
       <recent name="C:\NodeRoot\FTPClient" />
     </key>
   </component>
@@ -321,7 +321,11 @@
       <created>1459766401809</created>
       <updated>1459766401809</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Auth fixed">
+      <created>1459788437598</created>
+      <updated>1459788437598</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -330,12 +334,12 @@
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21666667" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21666667" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16915688" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16915688" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997773" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21714923" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
@@ -367,7 +371,8 @@
     <MESSAGE value="Added cookie storage for login data" />
     <MESSAGE value="Removed the session and added a cookie instead." />
     <MESSAGE value="." />
-    <option name="LAST_COMMIT_MESSAGE" value="." />
+    <MESSAGE value="Auth fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Auth fixed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -404,10 +409,7 @@
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="22" selection-start="365" selection-end="365" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="442">
-          <folding>
-            <marker date="1459774280619" expanded="true" signature="0:478" placeholder="{&quot;name&quot;: &quot;webixFTP&quot;...}" />
-            <marker date="1459774280619" expanded="true" signature="152:429" placeholder="{&quot;body-parser&quot;: &quot;^1.15.0&quot;...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -421,10 +423,7 @@
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="22" selection-start="365" selection-end="365" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="442">
-          <folding>
-            <marker date="1459774280619" expanded="true" signature="0:478" placeholder="{&quot;name&quot;: &quot;webixFTP&quot;...}" />
-            <marker date="1459774280619" expanded="true" signature="152:429" placeholder="{&quot;body-parser&quot;: &quot;^1.15.0&quot;...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -438,10 +437,7 @@
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="22" selection-start="305" selection-end="305" vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="425">
-          <folding>
-            <marker date="1459774280619" expanded="true" signature="0:478" placeholder="{&quot;name&quot;: &quot;webixFTP&quot;...}" />
-            <marker date="1459774280619" expanded="true" signature="152:429" placeholder="{&quot;body-parser&quot;: &quot;^1.15.0&quot;...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -455,10 +451,7 @@
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="0" selection-start="495" selection-end="495" vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="408">
-          <folding>
-            <marker date="1459774280619" expanded="true" signature="0:478" placeholder="{&quot;name&quot;: &quot;webixFTP&quot;...}" />
-            <marker date="1459774280619" expanded="true" signature="152:429" placeholder="{&quot;body-parser&quot;: &quot;^1.15.0&quot;...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -486,11 +479,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="0" selection-start="479" selection-end="479" vertical-scroll-proportion="-13.076923" vertical-offset="0" max-vertical-offset="442">
-          <folding>
-            <marker date="1459774280619" expanded="true" signature="0:478" placeholder="{&quot;name&quot;: &quot;webixFTP&quot;...}" />
-            <marker date="1459774280619" expanded="true" signature="152:429" placeholder="{&quot;body-parser&quot;: &quot;^1.15.0&quot;...}" />
-          </folding>
+        <state line="12" column="22" selection-start="342" selection-end="342" vertical-scroll-proportion="-7.8461537" vertical-offset="0" max-vertical-offset="442">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -503,23 +493,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/config/express.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="519" selection-end="519" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
+        <state line="20" column="52" selection-start="518" selection-end="518" vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="799">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controller/ftp.ctrl.srv.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="29" selection-start="1144" selection-end="1144" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6426">
+        <state line="23" column="40" selection-start="837" selection-end="837" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7667">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/view/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="435" column="51" selection-start="16869" selection-end="16869" vertical-scroll-proportion="0.37519142" vertical-offset="7150" max-vertical-offset="8500">
+        <state line="174" column="77" selection-start="6337" selection-end="6337" vertical-scroll-proportion="0.65543646" vertical-offset="2530" max-vertical-offset="9911">
           <folding>
-            <marker date="1459788319729" expanded="false" signature="691:739" placeholder="..." />
+            <marker date="1459851918160" expanded="false" signature="691:739" placeholder="..." />
           </folding>
         </state>
       </provider>

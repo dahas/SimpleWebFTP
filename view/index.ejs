@@ -127,6 +127,76 @@ function deleteRemoteFiles(ids) {
     });
 }
 
+function deleteRemoteFolder(folder) {
+    webix.modalbox({
+        title: "Please confirm",
+        text: "Really delete the selected folder?",
+        buttons: ["Yes", "No"],
+        width: 500,
+        callback: function (result) {
+            if (result == 0) {
+                webix.ajax().sync().post("/DeleteRemoteFolder", {
+                    folder: folder
+                }, function (text, data) {
+                    data = data.json();
+                    if (data.removed) {
+                        $$("remoteFolders").remove(folder);
+                    }
+                    addMessage(data.ftp_msg, data.msg_col);
+                });
+            }
+        }
+    });
+}
+
+function createRemoteDir(node) {
+    webix.ui({
+        view: "popup",
+        id: "inputFolderName",
+        width: 200,
+        head: false,
+        body: {
+            view: "form",
+            borderless: true,
+            elements: [
+                { view: "text", id: "newFolderName", label: "Enter folder name:", name: "name" },
+                { view: "button", value: "Create", click: function () {
+                    if (this.getParentView().validate()) {
+                        var branchID = document.getElementById("selectedRemoteDir").value;
+                        var newFolderName = branchID + "/" + $$("newFolderName").getValue();
+                        webix.ajax().sync().post("/CreateRemoteDir", {
+                            foldername: newFolderName
+                        }, function (text, data) {
+                            data = data.json();
+                            if (data.connected) {
+                                if ($$("remoteFolders").isBranchOpen(branchID) == false)
+                                    $$("remoteFolders").open(branchID);
+                                else
+                                    $$("remoteFolders").loadBranch(branchID);
+                                $$("remoteFolders").select(newFolderName);
+                                document.getElementById("selectedRemoteDir").value = newFolderName;
+                                $$("remoteFiles").clearAll();
+                                addMessage(data.ftp_msg, data.msg_col);
+                            } else {
+                                addMessage("You are not connected!", 'red');
+                            }
+                        });
+                        this.getTopParentView().hide(); //hide window
+                    }
+                    else
+                        webix.message({ type: "error", text: "Please enter a folder name." });
+                }}
+            ],
+            rules: {
+                "name": webix.rules.isNotEmpty
+            },
+            elementsConfig: {
+                labelPosition: "top"
+            }
+        }
+    }).show(node);
+}
+
 var connectForm = [
     {
         id: "ftp",
@@ -224,9 +294,8 @@ var remoteLayout = {
                     width: 300,
                     on: {
                         onBeforeOpen: function (id) {
-                            var fc = String(this.getFirstChildId(id));
-                            this.remove(fc)
-                            this.loadBranch(id);
+                            if (this.getItem(id).$count === -1)
+                                this.loadBranch(id);
                         },
                         onItemClick: function (id) {
                             document.getElementById("selectedRemoteDir").value = id;
@@ -267,6 +336,17 @@ var remoteLayout = {
                                     if (ids) {
                                         deleteRemoteFiles(ids);
                                     }
+                                    if (!ids && document.getElementById("selectedRemoteDir").value != "/") {
+                                        deleteRemoteFolder(document.getElementById("selectedRemoteDir").value);
+                                    }
+                                }
+                            }
+                        },
+                        { view: "button", id: "newFolder", type: "iconButton", align: "left", icon: "folder-open-o", label: "New Folder", width: 130,
+                            on: {
+                                onItemClick: function () {
+                                    if ($$("remoteFolders").count() > 0)
+                                        createRemoteDir(this.$view);
                                 }
                             }
                         }
@@ -453,8 +533,11 @@ webix.ready(function () {
 
     addMessage(welcome, welcome_col);
 
-    $$("localFolders").select(document.getElementById("selectedLocalDir").value);
-    $$("remoteFolders").select(document.getElementById("selectedRemoteDir").value);
+    document.getElementById("selectedLocalDir").value = "";
+    document.getElementById("selectedRemoteDir").value = "/";
+
+    //$$("localFolders").select(document.getElementById("selectedLocalDir").value);
+    //$$("remoteFolders").select(document.getElementById("selectedRemoteDir").value);
 
     webix.extend($$("localFiles"), webix.ProgressBar);
     webix.extend($$("remoteFiles"), webix.ProgressBar);

@@ -3,8 +3,8 @@ var drivelist = require('drivelist');
 var fs = require('fs');
 
 var ftp = null;
-var title = "A <b>Simple Web-FTP</b> client using Webix UI components and a NodeJS server.";
 
+var title = "A <b>Simple Web-FTP</b> client using Webix UI components and a NodeJS server.";
 
 /**
  * Render the GUI
@@ -17,6 +17,13 @@ exports.launch = function (req, res) {
         var ftpData = JSON.parse(req.cookies.ftp);
         ftp = new JSFtp({host: ftpData.ftp_host, port: ftpData.ftp_port, user: ftpData.ftp_user, pass: ftpData.ftp_pass, debugMode: true});
         ftp.auth(ftpData.ftp_user, ftpData.ftp_pass, function (err, result) {
+            ftp.raw.stat(function (hadError, data) {
+                if (!hadError) {
+                    console.log(data.text);
+                } else {
+                    console.log(hadError);
+                }
+            });
             if (result) {
                 is_connected = true;
             }
@@ -32,7 +39,7 @@ exports.launch = function (req, res) {
             title: title,
             connected: is_connected,
             welcome: "Please connect to your FTP server.",
-            welcome_col: "red"
+            welcome_col: ""
         });
     }
 }
@@ -124,22 +131,22 @@ exports.listRemoteFolders = function (req, res) {
         });
     } else {
         res.send({
-            connected: true,
-            ftp_msg: "Please connect to your FTP-Server.",
+            connected: false,
+            ftp_msg: "You are not connected!",
             msg_col: "red"
         });
     }
 };
 function loadRootPath() {
     var data = [];
-    data.push({ id: '/', value: "Root", open: false, data: {}});
+    data.push({ id: '/', value: "Root", open: false, webix_kids: true});
     return data;
 }
 function loadRemoteFolders(list, currPath) {
     var data = [];
     list.forEach(function (item) {
         if (item.type == 1) {
-            data.push({ id: currPath + '/' + item.name, value: item.name, data: {}});
+            data.push({ id: currPath + '/' + item.name, value: item.name, webix_kids: true});
         }
     });
     return {
@@ -162,7 +169,11 @@ exports.listRemoteFiles = function (req, res) {
             res.send(data);
         });
     } else {
-        res.send();
+        res.send({
+            connected: false,
+            ftp_msg: "You are not connected!",
+            msg_col: "red"
+        });
     }
 };
 function loadRemoteFiles(list, currPath) {
@@ -173,6 +184,7 @@ function loadRemoteFiles(list, currPath) {
             data.push({ id: currPath + '/' + item.name, value: item.name});
         }
     });
+    currPath = currPath.replace(/\/\//g, "/");
     return {
         data: data,
         ftp_msg: "Listing remote path: '" + currPath + "'",
@@ -218,8 +230,8 @@ exports.uploadFile = function (req, res) {
  */
 exports.deleteRemoteFile = function (req, res) {
     if (ftp) {
-        ftp.raw.dele(req.body.file, function (hadError, data) {
-            if (!hadError) {
+        ftp.raw.dele(req.body.file, function (err, data) {
+            if (!err) {
                 var fileName = req.body.file.split("/").pop();
                 res.send({
                     connected: true,
@@ -229,17 +241,78 @@ exports.deleteRemoteFile = function (req, res) {
             } else {
                 res.send({
                     connected: true,
-                    ftp_msg: hadError,
+                    ftp_msg: err,
                     msg_col: "red"
                 });
             }
         });
     } else {
-        res.send();
+        res.send({
+            connected: false,
+            ftp_msg: "You are not connected!",
+            msg_col: "red"
+        });
     }
 };
 
-/********** LOCAL DRIVES **********/
+/**
+ * Delete selected folder from remote drive
+ * @param req
+ * @param res
+ */
+exports.deleteRemoteFolder = function (req, res) {
+    if (ftp) {
+        ftp.raw.rmd(req.body.folder, function (err, data) {
+            if (!err) {
+                res.send({
+                    removed: true,
+                    ftp_msg: "The directory was successfully removed.",
+                    msg_col: "green"
+                });
+            } else {
+                res.send({
+                    removed: false,
+                    ftp_msg: "Cannot remove directory. Directory not empty!",
+                    msg_col: "red"
+                });
+            }
+        });
+    } else {
+        res.send({
+            removed: false,
+            ftp_msg: "You are not connected!",
+            msg_col: "red"
+        });
+    }
+};
+
+exports.createRemoteDir = function(req, res) {
+    if (ftp) {
+        ftp.raw.mkd(req.body.foldername, function(err, data) {
+            if (!err) {
+                res.send({
+                    connected: true,
+                    ftp_msg: data.text,
+                    msg_col: "green"
+                });
+            } else {
+                res.send({
+                    connected: true,
+                    ftp_msg: err,
+                    msg_col: "red"
+                });
+            }
+        });
+    } else {
+        res.send({
+            connected: false,
+            ftp_msg: "You are not connected!",
+            msg_col: "red"
+        });
+    }
+};
+
+/********** LOCAL DRIVE **********/
 
 /**
  * List mounted local disks
