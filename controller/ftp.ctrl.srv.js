@@ -17,13 +17,6 @@ exports.launch = function (req, res) {
         var ftpData = JSON.parse(req.cookies.ftp);
         ftp = new JSFtp({host: ftpData.ftp_host, port: ftpData.ftp_port, user: ftpData.ftp_user, pass: ftpData.ftp_pass, debugMode: true});
         ftp.auth(ftpData.ftp_user, ftpData.ftp_pass, function (err, result) {
-            ftp.raw.stat(function (hadError, data) {
-                if (!hadError) {
-                    console.log(data.text);
-                } else {
-                    console.log(hadError);
-                }
-            });
             if (result) {
                 is_connected = true;
             }
