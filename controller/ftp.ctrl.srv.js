@@ -196,12 +196,12 @@ exports.uploadFile = function (req, res) {
             if (!hadError) {
                 var fileName = req.body.destination.split("/").pop();
                 res.send({
-                    connected: true,
+                    uploaded: true,
                     ftp_msg: "File '" + fileName + "' uploaded successfully!",
                     msg_col: "green"});
             } else {
                 res.send({
-                    connected: false,
+                    uploaded: false,
                     ftp_msg: hadError,
                     msg_col: "red"
                 });
@@ -209,7 +209,7 @@ exports.uploadFile = function (req, res) {
         });
     } else {
         res.send({
-            connected: false,
+            uploaded: false,
             ftp_msg: "You are not connected!",
             msg_col: "red"
         });
@@ -227,13 +227,13 @@ exports.deleteRemoteFile = function (req, res) {
             if (!err) {
                 var fileName = req.body.file.split("/").pop();
                 res.send({
-                    connected: true,
+                    deleted: true,
                     ftp_msg: "File '" + fileName + "' deleted successfully!",
                     msg_col: "green"
                 });
             } else {
                 res.send({
-                    connected: true,
+                    deleted: false,
                     ftp_msg: err,
                     msg_col: "red"
                 });
@@ -241,7 +241,7 @@ exports.deleteRemoteFile = function (req, res) {
         });
     } else {
         res.send({
-            connected: false,
+            deleted: false,
             ftp_msg: "You are not connected!",
             msg_col: "red"
         });
@@ -284,13 +284,13 @@ exports.createRemoteDir = function(req, res) {
         ftp.raw.mkd(req.body.foldername, function(err, data) {
             if (!err) {
                 res.send({
-                    connected: true,
+                    created: true,
                     ftp_msg: data.text,
                     msg_col: "green"
                 });
             } else {
                 res.send({
-                    connected: true,
+                    created: false,
                     ftp_msg: err,
                     msg_col: "red"
                 });
@@ -298,7 +298,7 @@ exports.createRemoteDir = function(req, res) {
         });
     } else {
         res.send({
-            connected: false,
+            created: false,
             ftp_msg: "You are not connected!",
             msg_col: "red"
         });
@@ -423,7 +423,7 @@ exports.downloadFile = function (req, res) {
             if (!hadError) {
                 var fileName = req.body.destination.split("\\").pop();
                 res.send({
-                    connected: true,
+                    downloaded: true,
                     ftp_msg: "File '" + fileName + "' downloaded successfully!",
                     msg_col: "green"
                 });
@@ -431,7 +431,7 @@ exports.downloadFile = function (req, res) {
         });
     } else {
         res.send({
-            connected: false,
+            downloaded: false,
             ftp_msg: "You are not connected!",
             msg_col: "red"
         });

@@ -27,7 +27,7 @@ function addMessage(msg, color) {
     $$("FTPResponseMessages").setValues({msg: new_msg})
 }
 
-function copyRemoteFiles(ids) {
+function downloadRemoteFiles(ids) {
     if (ids instanceof Array)
         var idArr = ids;
     else
@@ -47,13 +47,7 @@ function copyRemoteFiles(ids) {
                 destination: destID
             }, function (text, data) {
                 data = data.json();
-                if (data.connected) {
-                    addMessage(data.ftp_msg, data.msg_col);
-                    //context.from.copy(ids[i], context.start, this, { parent: context.parent, newId: destID});
-                } else {
-                    addMessage("You are not connected!", 'red');
-                    return;
-                }
+                addMessage(data.ftp_msg, data.msg_col);
             });
         }
         $$("remoteFiles").unselectAll();
@@ -64,7 +58,7 @@ function copyRemoteFiles(ids) {
     }
 }
 
-function copyLocalFiles(ids) {
+function uploadLocalFiles(ids) {
     if (ids instanceof Array)
         var idArr = ids;
     else
@@ -83,13 +77,7 @@ function copyLocalFiles(ids) {
             destination: destID
         }, function (text, data) {
             data = data.json();
-            if (data.connected) {
-                addMessage(data.ftp_msg, data.msg_col);
-                //context.from.copy(ids[i], context.start, this, { parent: context.parent, newId: destID});
-            } else {
-                addMessage(data.ftp_msg, data.msg_col);
-                return;
-            }
+            addMessage(data.ftp_msg, data.msg_col);
         });
     }
     $$("localFiles").unselectAll();
@@ -114,12 +102,10 @@ function deleteRemoteFiles(ids) {
                         file: filename
                     }, function (text, data) {
                         data = data.json();
-                        if (data.connected) {
-                            addMessage(data.ftp_msg, data.msg_col);
+                        if (data.deleted) {
                             $$("remoteFiles").remove(filename);
-                        } else {
-                            addMessage("You are not connected!", 'red');
                         }
+                        addMessage(data.ftp_msg, data.msg_col);
                     });
                 }
             }
@@ -168,7 +154,7 @@ function createRemoteDir(node) {
                             foldername: newFolderName
                         }, function (text, data) {
                             data = data.json();
-                            if (data.connected) {
+                            if (data.created) {
                                 if ($$("remoteFolders").isBranchOpen(branchID) == false)
                                     $$("remoteFolders").open(branchID);
                                 else
@@ -176,12 +162,10 @@ function createRemoteDir(node) {
                                 $$("remoteFolders").select(newFolderName);
                                 document.getElementById("selectedRemoteDir").value = newFolderName;
                                 $$("remoteFiles").clearAll();
-                                addMessage(data.ftp_msg, data.msg_col);
-                            } else {
-                                addMessage("You are not connected!", 'red');
                             }
+                            addMessage(data.ftp_msg, data.msg_col);
                         });
-                        this.getTopParentView().hide(); //hide window
+                        this.getTopParentView().hide();
                     }
                     else
                         webix.message({ type: "error", text: "Please enter a folder name." });
@@ -211,7 +195,7 @@ var connectForm = [
                 on: {
                     onItemClick: function (elm) {
                         addMessage("Trying to connect ...");
-                        webix.ajax().timeout(6000).post("/Connect", {
+                        webix.ajax().post("/Connect", {
                             host: $$("ftp_host").getValue(),
                             port: $$("ftp_port").getValue(),
                             user: $$("ftp_user").getValue(),
@@ -235,9 +219,6 @@ var connectForm = [
                                 }, null, exp_date);
                                 webix.storage.cookie.put('con', { connected: true });
                             }
-                            xhr.ontimeout = function () {
-                                addMessage("Sorry! The server doesn´t respond. Please try again later.", "red");
-                            };
                             addMessage(data.ftp_msg, data.msg_col);
                         });
                     }
@@ -323,7 +304,7 @@ var remoteLayout = {
                                 onItemClick: function () {
                                     var ids = $$("remoteFiles").getSelectedId();
                                     if (ids) {
-                                        copyRemoteFiles(ids);
+                                        downloadRemoteFiles(ids);
                                         return false;
                                     }
                                 }
@@ -365,7 +346,7 @@ var remoteLayout = {
                             $$("remoteFiles").refresh();
                             $$("localFiles").drag = "target";
                             $$("localFiles").refresh();
-                            copyLocalFiles(context.source);
+                            uploadLocalFiles(context.source);
                             return false;
                         }
                     }
@@ -423,7 +404,7 @@ var localLayout = {
                             on: {
                                 onItemClick: function () {
                                     var ids = $$("localFiles").getSelectedId();
-                                    copyLocalFiles(ids);
+                                    uploadLocalFiles(ids);
                                 }
                             }
                         }
@@ -443,7 +424,7 @@ var localLayout = {
                             $$("localFiles").refresh();
                             $$("remoteFiles").drag = "target";
                             $$("remoteFiles").refresh();
-                            copyRemoteFiles(context.source);
+                            downloadRemoteFiles(context.source);
                             return false;
                         }
                     }
@@ -551,7 +532,7 @@ webix.ready(function () {
                 var tree = context.obj; //list item object
                 var treeID = context.id; //id of the clicked list item
                 if (id == "Download")
-                    copyRemoteFiles(treeID);
+                    downloadRemoteFiles(treeID);
                 if (id == "Delete")
                     deleteRemoteFiles(treeID);
             }
@@ -567,7 +548,7 @@ webix.ready(function () {
                 var tree = context.obj;
                 var treeID = context.id;
                 if (id == "Upload")
-                    copyLocalFiles(treeID);
+                    uploadLocalFiles(treeID);
             }
         }
     }).attachTo($$("localFiles"));

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d586eef-458e-4886-bef0-edacc54645f2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/express.js" afterPath="$PROJECT_DIR$/config/express.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/ftp.ctrl.srv.js" afterPath="$PROJECT_DIR$/controller/ftp.ctrl.srv.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/index.ejs" afterPath="$PROJECT_DIR$/view/index.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -31,9 +30,9 @@
       <file leaf-file-name="index.ejs" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/view/index.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="174" column="77" selection-start="6337" selection-end="6337" vertical-scroll-proportion="0.65543646" vertical-offset="2530" max-vertical-offset="9911">
+            <state line="286" column="31" selection-start="11728" selection-end="11728" vertical-scroll-proportion="7.4456353" vertical-offset="0" max-vertical-offset="9588">
               <folding>
-                <marker date="1459851918160" expanded="false" signature="691:739" placeholder="..." />
+                <marker date="1459866018757" expanded="false" signature="691:739" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -60,7 +59,7 @@
       <file leaf-file-name="express.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/express.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="52" selection-start="518" selection-end="518" vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="799">
+            <state line="28" column="49" selection-start="757" selection-end="757" vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="799">
               <folding />
             </state>
           </provider>
@@ -69,7 +68,7 @@
       <file leaf-file-name="ftp.ctrl.srv.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controller/ftp.ctrl.srv.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="40" selection-start="837" selection-end="837" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7667">
+            <state line="161" column="12" selection-start="4844" selection-end="4844" vertical-scroll-proportion="0.0" vertical-offset="2448" max-vertical-offset="7548">
               <folding />
             </state>
           </provider>
@@ -98,13 +97,13 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/view/index.html" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/view/index.ejs" />
         <option value="$PROJECT_DIR$/controller/local.ctrl.srv.js" />
         <option value="$PROJECT_DIR$/controller/connect.ctrl.srv.js" />
         <option value="$PROJECT_DIR$/controller/render.ctrl.srv.js" />
         <option value="$PROJECT_DIR$/config/express.js" />
         <option value="$PROJECT_DIR$/controller/remote.ctrl.srv.js" />
         <option value="$PROJECT_DIR$/controller/ftp.ctrl.srv.js" />
+        <option value="$PROJECT_DIR$/view/index.ejs" />
       </list>
     </option>
   </component>
@@ -157,48 +156,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="FTPClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FTPClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FTPClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FTPClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FTPClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="node_modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FTPClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FTPClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controller" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -325,7 +282,15 @@
       <created>1459788437598</created>
       <updated>1459788437598</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary=".">
+      <created>1459857387339</created>
+      <updated>1459857387339</updated>
+    </task>
+    <task id="LOCAL-00015" summary=".">
+      <created>1459857420947</created>
+      <updated>1459857420947</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -334,12 +299,12 @@
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21666667" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21666667" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16915688" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16915688" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997773" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21714923" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
@@ -370,9 +335,9 @@
     </option>
     <MESSAGE value="Added cookie storage for login data" />
     <MESSAGE value="Removed the session and added a cookie instead." />
-    <MESSAGE value="." />
     <MESSAGE value="Auth fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Auth fixed" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -493,23 +458,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/config/express.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="52" selection-start="518" selection-end="518" vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="799">
+        <state line="28" column="49" selection-start="757" selection-end="757" vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="799">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controller/ftp.ctrl.srv.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="40" selection-start="837" selection-end="837" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7667">
+        <state line="161" column="12" selection-start="4844" selection-end="4844" vertical-scroll-proportion="0.0" vertical-offset="2448" max-vertical-offset="7548">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/view/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="174" column="77" selection-start="6337" selection-end="6337" vertical-scroll-proportion="0.65543646" vertical-offset="2530" max-vertical-offset="9911">
+        <state line="286" column="31" selection-start="11728" selection-end="11728" vertical-scroll-proportion="7.4456353" vertical-offset="0" max-vertical-offset="9588">
           <folding>
-            <marker date="1459851918160" expanded="false" signature="691:739" placeholder="..." />
+            <marker date="1459866018757" expanded="false" signature="691:739" placeholder="..." />
           </folding>
         </state>
       </provider>
