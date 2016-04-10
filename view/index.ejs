@@ -27,6 +27,10 @@ function addMessage(msg, color) {
     $$("FTPResponseMessages").setValues({msg: new_msg})
 }
 
+function idleServer() {
+    addMessage("The ftp server doesn´t respond. Please reload this page.", "red")
+}
+
 function downloadRemoteFiles(ids) {
     if (ids instanceof Array)
         var idArr = ids;
@@ -235,16 +239,13 @@ var connectForm = [
                             callback: function (result) {
                                 if (result == 0) {
                                     addMessage("Trying to quit FTP session ...");
-                                    webix.ajax().timeout(6000).post("/Disconnect", null, function (text, data, xhr) {
+                                    webix.ajax().post("/Disconnect", null, function (text, data) {
                                         data = data.json();
                                         $$("connButton").show();
                                         $$("discButton").hide();
                                         $$("remoteFolders").clearAll();
                                         $$("remoteFiles").clearAll();
                                         document.getElementById("selectedRemoteDir").value = "/";
-                                        xhr.ontimeout = function () {
-                                            addMessage("Sorry! The server doesn´t respond. Please try again later.", "red");
-                                        };
                                         $$("FTPResponseMessages").setValues({msg: ""});
                                         webix.storage.cookie.remove('con');
                                         addMessage(data.ftp_msg, data.msg_col);
@@ -281,9 +282,11 @@ var remoteLayout = {
                         onItemClick: function (id) {
                             document.getElementById("selectedRemoteDir").value = id;
                             $$("remoteFiles").clearAll();
+                            var loadFiles = setTimeout(idleServer, 10000);
                             $$("remoteFiles").load('/RemoteFiles?parent=' + id, 'json', function (text, data) {
                                 var data = data.json();
                                 addMessage(data.ftp_msg, data.msg_col);
+                                clearTimeout(loadFiles);
                             });
                         }
                     }

@@ -1,20 +1,23 @@
 {
-  "name": "webixFTP",
-  "version": "1.0.0",
-  "description": "A simple FTP-Client with webix ui components",
-  "main": "server.js",
-  "dependencies": {
-    "body-parser": "^1.15.0",
-    "compression": "^1.0.11",
-    "cookie-parser": "^1.4.1",
-    "drivelist": "^2.0.10",
-    "ejs": "^2.4.1",
-    "express": "^4.13.4",
-    "jsftp": "^1.5.3",
-    "longjohn": "^0.2.11",
-    "method-override": "^2.3.5",
-    "morgan": "^1.3.0"
-  },
-  "author": "Martin Wolf",
-  "license": "MIT"
+    "name": "webixFTP",
+    "version": "1.0.0",
+    "description": "A simple FTP-Client with webix ui components",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "main": "server.js",
+    "dependencies": {
+        "body-parser": "^1.15.0",
+        "compression": "^1.0.11",
+        "cookie-parser": "^1.4.1",
+        "drivelist": "^2.0.10",
+        "ejs": "^2.4.1",
+        "express": "^4.13.4",
+        "jsftp": "^1.5.3",
+        "longjohn": "^0.2.11",
+        "method-override": "^2.3.5",
+        "morgan": "^1.3.0"
+    },
+    "author": "Martin Wolf",
+    "license": "MIT"
 }
