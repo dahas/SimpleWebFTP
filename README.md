@@ -3,8 +3,6 @@ SimpleWebFTP
 
 This is a simple web FTP client using Webix UI components and a NodeJS server.
 
-<img src="http://www.martinwolf.info/images/ftpclient.png" alt="Screenshot of the FTP client in Firefox on WIndows 10" />
-
 ### Installation
 
 Clone the repository or download the zip-file, create a folder and extract the content of the zip-file into it.
