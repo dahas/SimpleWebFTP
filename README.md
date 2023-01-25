@@ -3,13 +3,17 @@ SimpleWebFTP
 
 This is a simple web FTP client using Webix UI components and a NodeJS server.
 
+![Simple Web FTP](https://github.com/dahas/SimpleWebFTP/blob/assets/simplewebftp.png?raw=true)
+
 ### Installation
 
-Clone the repository or download the zip-file, create a folder and extract the content of the zip-file into it.
-Then enter in terminal:
-- $ cd Path/to/your_newly_created_folder
-- $ npm install
-- $ bower install
+```
+$ git clone https://github.com/dahas/SimpleWebFTP.git
+$ cd SimpleWebFTP
+$ npm install
+$ npm install -g bower
+$ bower install
+```
 
 ### Launch
 
