@@ -16,20 +16,20 @@ $ bower install
 ```
 
 ### Launch
+```
+$ node server
+```
 
-Enter in terminal:
-- $ node server
+Enter `localhost:8080` in browser.
 
-Enter localhost:9001 in your webbrowser.
-
-### Known problems
+## Known problems
 
 The app is probapply only working well on Windows since I haven't tested it on any other machine. Sorry for that.
 
-### License
+## License
 
 MIT
 
-### Author
+## Author
 
 Martin Wolf
