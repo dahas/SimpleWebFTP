@@ -10,7 +10,7 @@
         "body-parser": "^1.15.0",
         "compression": "^1.0.11",
         "cookie-parser": "^1.4.1",
-        "drivelist": "^2.0.10",
+        "drivelist": "^12.0.2",
         "ejs": "^2.4.1",
         "express": "^4.13.4",
         "jsftp": "^1.5.3",
