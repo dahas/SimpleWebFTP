@@ -12,7 +12,7 @@
         "cookie-parser": "^1.4.1",
         "drivelist": "^2.0.10",
         "ejs": "^2.4.1",
-        "express": "^4.13.4",
+        "express": "^4.22.0",
         "jsftp": "^1.5.3",
         "longjohn": "^0.2.11",
         "method-override": "^2.3.5",
